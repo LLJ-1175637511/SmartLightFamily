@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.llj.smartlightinfamily.vm.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/smartlight_look"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#f9d770"
+            android:gravity="center"
+            android:text="智能家居照明控制系统"
+            android:textColor="#977511"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fitsSystemWindows="true"/>
+
+        <ImageView
+            android:id="@+id/image_bedroom"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:src="@mipmap/smartlight_bedroom"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+        <TextView
+            android:id="@+id/tv_bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="卧室"
+            android:textColor="@color/grey_dark"
+            android:textSize="16dp"
+            app:layout_constraintLeft_toRightOf="@id/image_bedroom"
+            app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+        <Switch
+            android:id="@+id/switch_bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv1"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <ImageView
+            android:id="@+id/image_keting"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:src="@mipmap/smartlight_keting"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bedroom" />
+
+        <TextView
+            android:id="@+id/tv_keting"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="客厅"
+            android:textColor="@color/grey_dark"
+            android:textSize="16dp"
+            app:layout_constraintLeft_toRightOf="@id/image_keting"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bedroom" />
+
+        <Switch
+            android:id="@+id/switch_keting"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="40dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bedroom" />
+
+        <ImageView
+            android:id="@+id/image_wc"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:src="@mipmap/smartlight_wc"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_keting" />
+
+        <TextView
+            android:id="@+id/tv_wc"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="卫生间"
+            android:textColor="@color/grey_dark"
+            android:textSize="16dp"
+            app:layout_constraintLeft_toRightOf="@id/image_keting"
+            app:layout_constraintTop_toBottomOf="@+id/tv_keting" />
+
+        <Switch
+            android:id="@+id/switch_wc"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="40dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_keting" />
+
+        <ProgressBar
+            android:id="@+id/p1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="7.5dp"
+            android:layout_margin="20dp"
+            android:progressDrawable="@drawable/progressbar_horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tv_wc" />
+
+        <Switch
+            android:id="@+id/switchAllControl"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:switchPadding="5dp"
+            android:text="总开关"
+            android:checked="@={vm.allControlLiveData}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_qingjing"
+            app:layout_constraintTop_toBottomOf="@+id/lin2"
+            app:layout_constraintVertical_bias="0.188"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/tv_qingjing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="情景模式(正常）"
+            android:layout_marginTop="24dp"
+            android:textColor="#FFC107"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/p1" />
+
+        <LinearLayout
+            android:id="@+id/lin1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_qingjing">
+
+            <ImageView
+                android:id="@+id/ivXiuxi"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_weight="1"
+                android:src="@mipmap/smartlight_xiuxi" />
+
+            <ImageView
+                android:id="@+id/ivLijia"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_weight="1"
+                android:src="@mipmap/smartlight_lijia" />
+
+            <ImageView
+                android:id="@+id/ivZhengchang"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_weight="1"
+                android:src="@mipmap/smartlight_zaijia" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lin1">
+
+            <TextView
+                android:id="@+id/tv_xiuxi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="休息模式"
+                android:textColor="@color/grey_dark"
+                android:gravity="center"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_likai"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="离开模式"
+                android:textColor="@color/grey_dark"
+                android:gravity="center"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_zaijia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="正常模式"
+                android:textColor="@color/grey_dark"
+                android:gravity="center"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
