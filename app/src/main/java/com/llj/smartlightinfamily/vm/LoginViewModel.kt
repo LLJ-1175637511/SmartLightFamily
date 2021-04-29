@@ -13,7 +13,6 @@ import com.llj.smartlightinfamily.net.repository.AccessRepository
 import com.llj.smartlightinfamily.other.save
 import kotlinx.coroutines.Dispatchers
 
-
 class LoginViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     BaseViewModel(application, savedStateHandle) {
 
@@ -24,23 +23,23 @@ class LoginViewModel(application: Application, savedStateHandle: SavedStateHandl
     private val _rememberPwdLiveData = MutableLiveData<Boolean>(false)
     val rememberPwdLiveData: LiveData<Boolean> = _rememberPwdLiveData
 
-     private val _loadTokenSucLiveData = MutableLiveData<String>()
+    private val _loadTokenSucLiveData = MutableLiveData<String>()
     val loadTokenSucLiveData: LiveData<String> = _loadTokenSucLiveData
 
     fun login() {
         val input = checkInfo()
         if (!input) return
-        trySuspendExceptFunction(Dispatchers.IO){
+        trySuspendExceptFunction(Dispatchers.IO) {
             val tokenBean = AccessRepository.requestToken()
             val token = tokenBean.access_token
-            if (token.isNotEmpty()){
+            if (token.isNotEmpty()) {
                 savedSp()
                 _loadTokenSucLiveData.postValue(token)
             }
         }
     }
 
-    fun setRememberPwd(boolean: Boolean){
+    fun setRememberPwd(boolean: Boolean) {
         _rememberPwdLiveData.postValue(boolean)
     }
 
@@ -78,7 +77,7 @@ class LoginViewModel(application: Application, savedStateHandle: SavedStateHandl
     /**
      * 保存用户名 密码
      */
-    private fun savedSp(){
+    private fun savedSp() {
         getSP(Const.SPUser).save {
             putString(Const.SPUserPwdLogin, userNameLiveData.value)
             putString(Const.SPUserNameLogin, passWordLiveData.value)
@@ -88,7 +87,4 @@ class LoginViewModel(application: Application, savedStateHandle: SavedStateHandl
 
     private fun getApp() = getApplication<MyApplication>()
 
-    companion object {
-
-    }
 }

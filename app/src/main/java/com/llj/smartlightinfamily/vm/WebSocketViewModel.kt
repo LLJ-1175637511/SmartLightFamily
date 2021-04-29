@@ -35,7 +35,7 @@ abstract class WebSocketViewModel(
     val receiveDeviceDataLiveData: LiveData<String> = _receiveDeviceDataLiveData
 
     private val _canSendOrder = MutableLiveData<Boolean>(false)
-    private val canSendOrder: LiveData<Boolean> = _canSendOrder
+    val canSendOrder: LiveData<Boolean> = _canSendOrder
 
     private val _webState = MutableLiveData<WebSocketType>(WebSocketType.CONNECT_INIT)
     val webState: LiveData<WebSocketType> = _webState

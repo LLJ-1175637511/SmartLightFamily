@@ -1,7 +1,7 @@
 package com.llj.smartlightinfamily.other
 
-enum class RainfallType{
-    SUNNY,MIDDLE
+enum class FamilyModeEnum{ //正常（手动模式） 离开 休息 智能（自动模式）
+    COMMON,LEAVE,REST,SMART
 }
 
 enum class WebSocketType {

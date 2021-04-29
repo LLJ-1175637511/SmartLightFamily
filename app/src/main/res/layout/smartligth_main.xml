@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="fm"
+            type="com.llj.smartlightinfamily.other.FamilyModeEnum" />
+
         <variable
             name="vm"
             type="com.llj.smartlightinfamily.vm.MainViewModel" />
@@ -19,15 +24,14 @@
             android:id="@+id/tv1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#f9d770"
+            android:background="#F4D780"
             android:gravity="center"
             android:text="智能家居照明控制系统"
-            android:textColor="#977511"
+            android:textColor="#735807"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:fitsSystemWindows="true"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/image_bedroom"
@@ -41,7 +45,7 @@
 
         <TextView
             android:id="@+id/tv_bedroom"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="25dp"
@@ -52,14 +56,31 @@
             app:layout_constraintLeft_toRightOf="@id/image_bedroom"
             app:layout_constraintTop_toBottomOf="@+id/tv1" />
 
+        <ProgressBar
+            android:id="@+id/seek_bedroom"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:max="100"
+            android:progress="@{vm.lightLiveData}"
+            android:progressDrawable="@drawable/progressbar_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_bedroom"
+            app:layout_constraintEnd_toStartOf="@+id/switch_bedroom"
+            app:layout_constraintStart_toEndOf="@+id/tv_bedroom"
+            app:layout_constraintTop_toTopOf="@+id/tv_bedroom" />
+
         <Switch
             android:id="@+id/switch_bedroom"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="25dp"
             android:layout_marginEnd="40dp"
+            android:checked="@={vm.CControlLiveData}"
+            android:clickable="@{vm.canSendOrder}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_bedroom"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv1"
+            app:layout_constraintTop_toTopOf="@+id/tv_bedroom"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <ImageView
@@ -74,7 +95,7 @@
 
         <TextView
             android:id="@+id/tv_keting"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="25dp"
@@ -85,14 +106,32 @@
             app:layout_constraintLeft_toRightOf="@id/image_keting"
             app:layout_constraintTop_toBottomOf="@+id/tv_bedroom" />
 
+        <ProgressBar
+            android:id="@+id/seek_keting"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:max="100"
+            android:progress="@{vm.lightLiveData}"
+            android:progressDrawable="@drawable/progressbar_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_keting"
+            app:layout_constraintEnd_toStartOf="@+id/switch_keting"
+            app:layout_constraintLeft_toRightOf="@id/tv_bedroom"
+            app:layout_constraintStart_toEndOf="@+id/tv_keting"
+            app:layout_constraintTop_toTopOf="@+id/tv_keting" />
+
         <Switch
             android:id="@+id/switch_keting"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="40dp"
+            android:checked="@={vm.DControlLiveData}"
+            android:clickable="@{vm.canSendOrder}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_keting"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_bedroom" />
+            app:layout_constraintTop_toTopOf="@+id/tv_keting" />
 
         <ImageView
             android:id="@+id/image_wc"
@@ -106,7 +145,7 @@
 
         <TextView
             android:id="@+id/tv_wc"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="25dp"
@@ -117,12 +156,30 @@
             app:layout_constraintLeft_toRightOf="@id/image_keting"
             app:layout_constraintTop_toBottomOf="@+id/tv_keting" />
 
+        <ProgressBar
+            android:id="@+id/seek_wc"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:max="100"
+            android:progress="@{vm.lightLiveData}"
+            android:progressDrawable="@drawable/progressbar_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_wc"
+            app:layout_constraintEnd_toStartOf="@+id/switch_wc"
+            app:layout_constraintLeft_toRightOf="@id/tv_bedroom"
+            app:layout_constraintStart_toEndOf="@+id/tv_wc"
+            app:layout_constraintTop_toTopOf="@+id/tv_wc" />
+
         <Switch
             android:id="@+id/switch_wc"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="25dp"
             android:layout_marginRight="40dp"
+            android:checked="@={vm.EControlLiveData}"
+            android:clickable="@{vm.canSendOrder}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_keting" />
 
@@ -138,26 +195,57 @@
         <Switch
             android:id="@+id/switchAllControl"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:switchPadding="5dp"
-            android:text="总开关"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
             android:checked="@={vm.allControlLiveData}"
+            android:clickable="@{vm.canSendOrder}"
+            android:paddingStart="10dp"
+            android:text="总开关"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_qingjing"
-            app:layout_constraintTop_toBottomOf="@+id/lin2"
-            app:layout_constraintVertical_bias="0.188"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            app:layout_constraintTop_toBottomOf="@+id/lin2" />
+
+        <TextView
+            android:id="@+id/tvIsLogined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="20dp"
+            android:text="设备离线"
+            android:textSize="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lin2" />
+
+        <TextView
+            android:id="@+id/tv_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="室内人员状态："
+            android:textColor="@color/grey_dark"
+            android:textSize="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_qingjing"
+            app:layout_constraintTop_toBottomOf="@id/lin2" />
+
+        <ImageView
+            android:id="@+id/image_person"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_person"
+            app:layout_constraintLeft_toRightOf="@+id/tv_person"
+            app:layout_constraintStart_toEndOf="@+id/tv_person"
+            app:layout_constraintTop_toTopOf="@+id/tv_person" />
 
         <TextView
             android:id="@+id/tv_qingjing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="情景模式(正常）"
             android:layout_marginTop="24dp"
+            android:text="@{vm.strFamilyModeLiveData}"
             android:textColor="#FFC107"
             android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -165,9 +253,9 @@
 
         <LinearLayout
             android:id="@+id/lin1"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_qingjing">
@@ -176,27 +264,44 @@
                 android:id="@+id/ivXiuxi"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                android:layout_weight="1"
+                android:clickable="@{vm.canSendOrder}"
+                android:onClick="@{()->vm.setMode(fm.REST)}"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_weight="1"
                 android:src="@mipmap/smartlight_xiuxi" />
 
             <ImageView
                 android:id="@+id/ivLijia"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                android:layout_weight="1"
+                android:clickable="@{vm.canSendOrder}"
+                android:onClick="@{()->vm.setMode(fm.LEAVE)}"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_weight="1"
                 android:src="@mipmap/smartlight_lijia" />
 
             <ImageView
                 android:id="@+id/ivZhengchang"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                android:layout_weight="1"
+                android:clickable="@{vm.canSendOrder}"
+                android:onClick="@{()->vm.setMode(fm.COMMON)}"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
+                android:src="@mipmap/smartlight_zaijia" />
+
+            <ImageView
+                android:id="@+id/ivSmart"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
                 android:layout_weight="1"
+                android:clickable="@{vm.canSendOrder}"
+                android:onClick="@{()->vm.setMode(fm.SMART)}"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:src="@mipmap/smartlight_zaijia" />
 
         </LinearLayout>
@@ -214,9 +319,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="休息模式"
                 android:textColor="@color/grey_dark"
-                android:gravity="center"
                 android:textSize="14dp" />
 
             <TextView
@@ -224,9 +329,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="离开模式"
                 android:textColor="@color/grey_dark"
-                android:gravity="center"
                 android:textSize="14dp" />
 
             <TextView
@@ -234,9 +339,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="正常模式"
                 android:textColor="@color/grey_dark"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_smart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
+                android:text="智能模式"
+                android:textColor="@color/grey_dark"
                 android:textSize="14dp" />
 
 

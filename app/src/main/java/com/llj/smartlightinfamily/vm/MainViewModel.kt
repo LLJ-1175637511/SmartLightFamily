@@ -1,32 +1,103 @@
 package com.llj.smartlightinfamily.vm
 
 import android.app.Application
+import androidx.annotation.DrawableRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.google.gson.Gson
+import com.llj.smartlightinfamily.R
 import com.llj.smartlightinfamily.bean.MainDataBean
 import com.llj.smartlightinfamily.bean.ReceiveDeviceBean
 import com.llj.smartlightinfamily.bean.UserConfigBean
+import com.llj.smartlightinfamily.other.FamilyModeEnum
 import com.llj.smartlightinfamily.other.trySuspendExceptFunction
 import kotlinx.coroutines.Dispatchers
 
 class MainViewModel(application: Application, accessConfig: UserConfigBean) :
     WebSocketViewModel(accessConfig, application) {
 
-    private val _tiltLiveData = MutableLiveData<Boolean>()
-    val tiltLiveData: LiveData<Boolean> = _tiltLiveData
+    val allControlLiveData = MutableLiveData<Boolean>()
+    val CControlLiveData = MutableLiveData<Boolean>() //卧室灯开关
+    val DControlLiveData = MutableLiveData<Boolean>() //客厅灯开关
+    val EControlLiveData = MutableLiveData<Boolean>() //卫生间灯开关
 
-    val allControlLiveData = MutableLiveData<Boolean>(false)
+    private val _lightLiveData = MutableLiveData<Int>(0) //光照强度
+    val lightLiveData: LiveData<Int> = _lightLiveData
 
-    private val _mainDataBeanLiveData = MutableLiveData<MainDataBean>()
-    val mainDataBeanLiveData: LiveData<MainDataBean> = _mainDataBeanLiveData
+    private val _familyModeLiveData = MutableLiveData<FamilyModeEnum>(FamilyModeEnum.COMMON) //光照强度
+    val familyModeLiveData: LiveData<FamilyModeEnum> = _familyModeLiveData
 
-    fun startShake() {
+    private val _someoneIndoorLiveData = MutableLiveData<Boolean>(false)
+    private val someoneIndoorLiveData: LiveData<Boolean> = _someoneIndoorLiveData
+
+    val someoneIndoorPictureIDLiveData: LiveData<Int> = Transformations.map(someoneIndoorLiveData) {
+        if (it) R.drawable.preson_in
+        else R.drawable.preson_out
+    }
+
+    val strFamilyModeLiveData: LiveData<String> = Transformations.map(familyModeLiveData) {
+        when (it) {
+            FamilyModeEnum.COMMON -> "情景模式(手动)"
+            FamilyModeEnum.LEAVE -> "情景模式(离开)"
+            FamilyModeEnum.REST -> "情景模式(休息)"
+            FamilyModeEnum.SMART -> "情景模式(智能)"
+        }
+    }
+
+    fun turnOnAll() {
         sendOrderToDevice("A")
     }
 
-    fun stopShake() {
+    fun turnOffAll() {
         sendOrderToDevice("B")
+    }
+
+    fun turnOnDeviceC() { //卧室
+        sendOrderToDevice("C:0")
+    }
+
+    fun turnOffDeviceC() { //卧室
+        sendOrderToDevice("C:255")
+    }
+
+    fun turnOnDeviceD() { //客厅
+        sendOrderToDevice("D:0")
+    }
+
+    fun turnOffDeviceD() { //客厅
+        sendOrderToDevice("D:255")
+    }
+
+    fun turnOnDeviceE() { //卫生间
+        sendOrderToDevice("E:0")
+    }
+
+    fun turnOffDeviceE() { //卫生间
+        sendOrderToDevice("E:255")
+    }
+
+    fun setSmartMode(){
+        sendOrderToDevice("G")
+    }
+
+    fun setCommonMode(){
+        sendOrderToDevice("H")
+    }
+
+    fun setMode(fm: FamilyModeEnum) {
+        _familyModeLiveData.postValue(fm)
+        when (fm) {
+            FamilyModeEnum.LEAVE -> {
+                allControlLiveData.postValue(false)
+            }
+            FamilyModeEnum.REST -> {
+                CControlLiveData.postValue(false)
+                DControlLiveData.postValue(false)
+                EControlLiveData.postValue(false)
+            }
+
+        }
     }
 
     fun notifyAnalysisJson(jsonStr: String) = trySuspendExceptFunction(Dispatchers.IO) {
@@ -34,36 +105,17 @@ class MainViewModel(application: Application, accessConfig: UserConfigBean) :
         val bean = gson.fromJson(jsonStr, ReceiveDeviceBean::class.java)
         bean?.let {
             val jsonObject = it.V
-            val temp = jsonObject[tempInterfaceId].asFloat
-            val humi = jsonObject[humiInterfaceId].asFloat
-            val isWetting = humi > 30f
-            val tilt = jsonObject[tiltInterfaceId].asInt == 1
-            val bedHeader = jsonObject[bedHeaderInterfaceId].asInt == 1
-            val bedEnd = jsonObject[bedEndInterfaceId].asInt == 1
-            _mainDataBeanLiveData.postValue(
-                MainDataBean(
-                    temp,
-                    humi,
-                    isWetting,
-                    bedHeader,
-                    bedEnd,
-                    tilt
-                )
-            )
+            val isIndoor = jsonObject[isIndoorInterfaceId].asInt
+            _someoneIndoorLiveData.postValue(isIndoor == 1)
+            val light = jsonObject[lightInterfaceId].asFloat
+            val progressValue = (light*100/200).toInt()
+            _lightLiveData.postValue(progressValue)
         }
     }
 
-    fun updateUi(it: MainDataBean) {
-
-        _tiltLiveData.postValue(it.tilt)
-    }
-
     companion object {
-        private const val tempInterfaceId = "19675"
-        private const val humiInterfaceId = "19683"
-        private const val tiltInterfaceId = "19684"
-        private const val bedHeaderInterfaceId = "19685"
-        private const val bedEndInterfaceId = "19686"
+        private const val isIndoorInterfaceId = "19751"
+        private const val lightInterfaceId = "19750"
     }
 
 }

@@ -8,15 +8,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.llj.smartlightinfamily.utils.ToastUtils
 import com.llj.smartlightinfamily.MyApplication
 import com.llj.smartlightinfamily.bean.UserConfigBean
-import com.llj.smartlightinfamily.other.WebSocketType
 import com.llj.smartlightinfamily.other.baseObserver
 import com.llj.smartlightinfamily.vm.MainViewModel
 import com.llj.smartlightinfamily.R
-import com.llj.smartlightinfamily.databinding.SmartligthLookBinding
+import com.llj.smartlightinfamily.databinding.SmartligthMainBinding
+import com.llj.smartlightinfamily.other.FamilyModeEnum
+import com.llj.smartlightinfamily.other.WebSocketType
 
-class MainActivity : BaseActivity<SmartligthLookBinding>() {
+class MainActivity : BaseActivity<SmartligthMainBinding>() {
 
-    override fun getLayoutId() = R.layout.smartligth_look
+    override fun getLayoutId() = R.layout.smartligth_main
 
     override fun buildToolbar() = ToolbarConfig("主页", isShowBack = false, isShowMenu = false)
 
@@ -45,22 +46,45 @@ class MainActivity : BaseActivity<SmartligthLookBinding>() {
         vm.receiveDeviceDataLiveData.baseObserver(this) {
             vm.notifyAnalysisJson(it)
         }
-
-        vm.mainDataBeanLiveData.baseObserver(this) {
-            vm.updateUi(it)
+        vm.someoneIndoorPictureIDLiveData.baseObserver(this) {
+            getDataBinding().imagePerson.setImageResource(it)
         }
-
+        vm.CControlLiveData.baseObserver(this) {
+            if (!it) vm.turnOnDeviceC()
+            else vm.turnOffDeviceC()
+        }
+        vm.DControlLiveData.baseObserver(this) {
+            if (!it) vm.turnOnDeviceD()
+            else vm.turnOffDeviceD()
+        }
+        vm.EControlLiveData.baseObserver(this) {
+            if (!it) vm.turnOnDeviceE()
+            else vm.turnOffDeviceE()
+        }
         vm.allControlLiveData.baseObserver(this) {
-            ToastUtils.toastShort("click:${it.toString()}")
+            if (!it) vm.turnOnAll()
+            else vm.turnOffAll()
         }
-/*
-        getDataBinding().switchShake.setOnClickListener {
-            val isClick = getDataBinding().switchShake.isChecked
-            if (isClick) vm.startShake()
-            else vm.stopShake()
+        vm.familyModeLiveData.baseObserver(this) {
+            when (it) {
+                FamilyModeEnum.COMMON -> {
+                    startAnimators(getDataBinding().ivZhengchang)
+                    vm.setCommonMode()
+                }
+                FamilyModeEnum.SMART -> {
+                    startAnimators(getDataBinding().ivSmart)
+                    vm.setSmartMode()
+                }
+                FamilyModeEnum.LEAVE -> {
+                    startAnimators(getDataBinding().ivLijia)
+                    vm.setCommonMode()
+                }
+                FamilyModeEnum.REST -> {
+                    startAnimators(getDataBinding().ivXiuxi)
+                    vm.setCommonMode()
+                }
+            }
         }
-
-
         vm.webState.baseObserver(this) { status ->
             when (status) {
                 WebSocketType.DEVICE_OFFLINE -> {
@@ -76,15 +100,15 @@ class MainActivity : BaseActivity<SmartligthLookBinding>() {
                     }
                 }
             }
-        }*/
-//        vm.checkUserAndDeviceStatus()
+        }
+        vm.checkUserAndDeviceStatus()
     }
 
     private fun startAnimators(bedWetting: View) {
-        val ax =ObjectAnimator.ofFloat(bedWetting,"scaleX",1f,1.5f,1.0f).apply {
+        val ax = ObjectAnimator.ofFloat(bedWetting, "scaleX", 1f, 1.5f, 1.0f).apply {
             duration = 300
         }
-        val ay = ObjectAnimator.ofFloat(bedWetting,"scaleY",1f,1.5f,1.0f).apply {
+        val ay = ObjectAnimator.ofFloat(bedWetting, "scaleY", 1f, 1.5f, 1.0f).apply {
             duration = 300
         }
         ax.start()
